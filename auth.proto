@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package auth;
+
+import "google/protobuf/timestamp.proto";
+
+// Request message for generating an authentication challenge
+message GenerateAuthChallengeRequest {
+  bytes pubkey = 1;  // Public key of the client requesting the challenge
+}
+
+// Response message containing the generated challenge
+message GenerateAuthChallengeResponse {
+  bytes challenge = 1;  // Challenge string to be signed by the client
+}
+
+// Request message for generating authentication tokens
+message GenerateAuthTokensRequest {
+  bytes challenge = 1;          // Challenge string received from the server
+  bytes signed_challenge = 2;    // Challenge string signed by the client
+}
+
+// Token message containing the token value and its expiration time
+message Token {
+  string value = 1;                       // Token value
+  google.protobuf.Timestamp expires_at_utc = 2;  // Expiration time of the token in UTC
+}
+
+// Response message containing the generated access and refresh tokens
+message GenerateAuthTokensResponse {
+  Token access_token = 1;  // Access token for API requests
+  Token refresh_token = 2; // Refresh token for obtaining new access tokens
+}
+
+// Request message for refreshing the access token using a refresh token
+message RefreshAccessTokenRequest {
+  string refresh_token = 1;  // Refresh token used to obtain a new access token
+}
+
+// Response message containing the new access token
+message RefreshAccessTokenResponse {
+  Token access_token = 1;  // New access token for API requests, it should be placed to HTTP header `Authorization: Bearer <TOKEN>`
+}
+
+// Authentication service definition
+service AuthService {
+  rpc GenerateAuthChallenge(GenerateAuthChallengeRequest) returns (GenerateAuthChallengeResponse) {}
+
+  rpc GenerateAuthTokens(GenerateAuthTokensRequest) returns (GenerateAuthTokensResponse) {}
+
+  rpc RefreshAccessToken(RefreshAccessTokenRequest) returns (RefreshAccessTokenResponse) {}
+}

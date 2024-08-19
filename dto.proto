@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package dto;
+
+import "google/protobuf/timestamp.proto";
+
+// Represents a single transaction in the mempool along with its events.
+message MempoolMessage {
+  bytes hash = 1;
+  int32 workchain_id = 2;
+  bytes shard = 3;
+  bytes data = 4;
+  bytes std_smc_address = 5;
+
+  repeated bytes events = 6;
+  uint64 gas_spent = 7;
+}
+
+// Represents a collection of messages in the mempool with emulation results.
+message MempoolPacket {
+  google.protobuf.Timestamp server_ts = 1; // Server timestamp when the transactions were recorded.
+  uint32 expiration_ns = 2;                // Expiration time in nanoseconds for the transactions.
+  repeated MempoolMessage messages = 3; // List of transactions with their events.
+}
+
+// Represents a external message.
+message ExternalMessage {
+  bytes data = 1; // Encoded transaction data.
+}
+
+// Represents a bundle of transactions to be processed together.
+message Bundle {
+  repeated ExternalMessage message = 1; // List of messages in the bundle.
+}
