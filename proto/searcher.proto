@@ -8,9 +8,14 @@ message EventSubscriptionV0 {
   repeated string event = 1; // List of events to subscribe to.
 }
 
+message AddressSubscriptionV0 {
+  repeated string address = 1; // List of events to subscribe to.
+}
+
 // Mempool subscription message, allowing subscriptions by package, object, or address.
 message MempoolSubscription {
-  EventSubscriptionV0 events = 1; // Subscribe to mempool messages involving specific addresses.
+  EventSubscriptionV0 events = 1; // Subscribe to mempool messages involving specific events.
+  AddressSubscriptionV0 addresses = 2; // Subscribe to mempool messages involving specific addresses.
 }
 
 // Response message for sending a bundle.
