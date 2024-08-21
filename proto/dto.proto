@@ -12,6 +12,8 @@ message MempoolExternalMessage {
   bytes data = 4;
   bytes std_smc_address = 5;
   uint64 gas_spent = 6;
+
+  repeated bytes out_msgs = 7;
 }
 
 // Represents a collection of messages in the mempool with emulation results.
