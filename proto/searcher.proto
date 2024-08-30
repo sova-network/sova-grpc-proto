@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package searcher;
+option go_package = "generated/types";
 
 import "dto.proto";
 
