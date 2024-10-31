@@ -9,9 +9,36 @@ message AddressSubscriptionV0 {
   repeated string address = 1; // List of events to subscribe to.
 }
 
+message WorkchainSubscriptionV0 {
+  int32 workchain_id = 1; // workchain id
+}
+
+message WorkchainShardSubscriptionV0 {
+  int32 workchain_id = 1; // workchain id
+  bytes shard = 2; // shard id
+}
+
+message ExternalOutMessageBodyOpcodeSubscriptionV0 {
+  int32 workchain_id = 1; // workchain id
+  optional bytes shard = 2; // shard id
+  int32 opcode = 3; // opcode
+}
+
+message InternalMessageBodyOpcodeSubscriptionV0 {
+  int32 workchain_id = 1; // workchain id
+  optional bytes shard = 2; // shard id
+  int32 opcode = 3; // opcode
+}
+
 // Mempool subscription message, allowing subscriptions by package, object, or address.
 message MempoolSubscription {
-  AddressSubscriptionV0 addresses = 1; // Subscribe to mempool messages involving specific addresses.
+  oneof subscription {
+    AddressSubscriptionV0 addresses = 1; // Subscribe to mempool messages involving specific addresses.
+    WorkchainSubscriptionV0 workchain = 2; // Subscribe to mempool messages happened in specific workchain.
+    WorkchainShardSubscriptionV0 workchainShard = 3; // Subscribe to mempool messages happened in specific shard of workchain.
+    ExternalOutMessageBodyOpcodeSubscriptionV0 externalOutMessageBodyOpcode = 4; // Subscribe to mempool outging internal messages matching opcode.
+    InternalMessageBodyOpcodeSubscriptionV0 internalMessageBodyOpcode = 5; // Subscribe to mempool outging internal messages matching opcode.
+  }
 }
 
 // Response message for sending a bundle.
