@@ -1,4 +1,4 @@
-This repository contains the gRPC proto files for Mevton, a custom implementation of MEV (Maximal Extractable Value) infrastructure on the TON blockchain. These proto files define the services, messages, and methods used for communication between various Mevton components, such as the Block Engine, Validators, Searchers, and other integrated services.
+This repository contains the gRPC proto files for Sova, a custom implementation of MEV (Maximal Extractable Value) infrastructure on the TON blockchain. These proto files define the services, messages, and methods used for communication between various Sova components, such as the Block Engine, Validators, Searchers, and other integrated services.
 
 ## Table of Contents
 
@@ -13,9 +13,9 @@ This repository contains the gRPC proto files for Mevton, a custom implementatio
 
 ## Overview
 
-Mevton is a specialized fork of the TON blockchain client with customizations to support MEV functionality. It allows Searchers to submit bundles of transactions to a Block Engine, which then emulates, auctions, and orders these bundles for inclusion in blocks by Validators.
+Sova is a specialized fork of the TON blockchain client with customizations to support MEV functionality. It allows Searchers to submit bundles of transactions to a Block Engine, which then emulates, auctions, and orders these bundles for inclusion in blocks by Validators.
 
-This repository hosts the gRPC proto files used to define the communication interfaces between different components in the Mevton ecosystem.
+This repository hosts the gRPC proto files used to define the communication interfaces between different components in the Sova ecosystem.
 
 ## Getting Started
 
@@ -32,8 +32,8 @@ Before you can generate code from these proto files, ensure you have the followi
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/mevton-labs/mevton-grpc-proto.git
-cd mevton-grpc-proto
+git clone https://github.com/sova-network/sova-grpc-proto.git
+cd sova-grpc-proto
 ```
 
 ### Generating Code
@@ -53,8 +53,8 @@ protoc --proto_path=proto/ --python_out=./generated --grpc_out=./generated proto
 ## Proto Files
 The proto files are located in the proto/ directory and include definitions for:
 
-* block_engine.proto: Interfaces for communication between Validators and the Mevton Block Engine.
-* searcher.proto: Interfaces for communication between Searchers and the Mevton Block Engine.
+* block_engine.proto: Interfaces for communication between Validators and the Sova Block Engine.
+* searcher.proto: Interfaces for communication between Searchers and the Sova Block Engine.
 * auth.proto: Interfaces for Validators to authenticate themselves or for Searchers to raise the limits.
 
 Each proto file contains detailed comments describing the purpose and structure of the services and messages defined.
