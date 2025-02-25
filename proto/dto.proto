@@ -33,5 +33,5 @@ message ExternalMessage {
 message Bundle {
   repeated ExternalMessage message = 1; // List of messages in the bundle.
   google.protobuf.Timestamp expiration_ns = 2; // Timestamp when the bundle should be expired and not included in any future blocks.
-  uint64 id = 3; // ID of bundle.
+  bytes hash = 3; // SHA256 hash of the bundle.
 }
