@@ -5,6 +5,36 @@ option go_package = "generated/types";
 
 import "google/protobuf/timestamp.proto";
 
+message MempoolOutInternalMessage {
+  bool ihr_disabled = 1;  	// ihr_disabled : Bool
+  bool bounce = 2;  	// bounce : Bool
+  bool bounced = 3;  	// bounced : Bool
+  bytes src = 4;  	// src : MsgAddressInt
+  bytes dest = 5;  	// dest : MsgAddressInt
+  bytes value = 6;  	// value : CurrencyCollection
+  bytes ihr_fee = 7;  	// ihr_fee : Grams
+  bytes fwd_fee = 8;  	// fwd_fee : Grams
+  uint64 created_lt = 9;  	// created_lt : uint64
+  uint32 created_at = 10;  	// created_at : uint32
+}
+
+message MempoolOutExternalOutMessage {
+  bytes src = 1;  	// src : MsgAddressInt
+  bytes dest = 2;  	// dest : MsgAddressExt
+  uint64 created_lt = 3;  	// created_lt : uint64
+  uint32 created_at = 4;  	// created_at : uint32
+}
+
+message MempoolOutMessage {
+  bytes hash = 1;
+  oneof info {
+    MempoolOutInternalMessage internal_message = 2;
+    MempoolOutExternalOutMessage external_out_message = 3;
+  }
+  optional bytes init = 4;
+  bytes body = 5;
+}
+
 // Represents a single external message in the mempool.
 message MempoolExternalMessage {
   bytes hash = 1;
@@ -15,6 +45,7 @@ message MempoolExternalMessage {
   uint64 gas_spent = 6;
 
   repeated bytes out_msgs = 7;
+  repeated MempoolOutMessage parsed_out_msgs = 8;
 }
 
 // Represents a collection of messages in the mempool with emulation results.
