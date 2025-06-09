@@ -31,7 +31,14 @@ message MempoolOutMessage {
     MempoolOutInternalMessage internal_message = 2;
     MempoolOutExternalOutMessage external_out_message = 3;
   }
-  optional bytes init = 4;
+  
+  message Init {
+    optional bytes code = 1;
+    optional bytes data = 2;
+  }
+
+  optional Init init = 4;
+  
   bytes body = 5;
 }
 
