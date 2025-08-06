@@ -67,15 +67,34 @@ message ExternalMessage {
   bytes data = 1; // Encoded message data.
 }
 
+// Represents a unique internal or external message
+// that is expected to be generated during the execution of a bundle
+// within the same shard.
+message ExpectGenerateMessage {
+  bool is_internal = 1;                     // Whether the expected message is internal (true) or external (false).
+  bytes std_smc_address = 2;       // Match by recipient address (standard smart contract address format).
+  int32 in_msg_body_opcode = 3;   // Match by opcode in the incoming message body.
+}
+
+// A wrapper for different types of bundle verification rules.
+// Only one rule can be used per entry.
+message BundleVerificationRule {
+  oneof rule {
+    ExpectGenerateMessage expect_message = 1;
+  }
+}
+
 // Represents a bundle of messages to be processed together on the validator's side.
 message ValidatorBundle {
-  repeated ExternalMessage message = 1; // List of messages in the bundle.
+  repeated ExternalMessage message = 1; // List of external messages in the bundle.
   google.protobuf.Timestamp expiration_ns = 2; // Timestamp when the bundle should be expired and not included in any future blocks.
-  string id = 3; // ID of the bundle.
+  string id = 3; // Unique bundle identifier.
+  repeated BundleVerificationRule verification_rules = 4; // Rules that must be satisfied during bundle inclusion.
 }
 
 // Represents a bundle of messages to be processed together on the engine side.
 message Bundle {
-  repeated ExternalMessage message = 1; // List of messages in the bundle.
+  repeated ExternalMessage message = 1; // List of external messages in the bundle.
   google.protobuf.Timestamp expiration_ns = 2; // Timestamp when the bundle should be expired and not included in any future blocks.
+  repeated BundleVerificationRule verification_rules = 3; // Rules to validate during emulation.
 }

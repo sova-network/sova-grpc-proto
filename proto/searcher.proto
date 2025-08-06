@@ -68,57 +68,12 @@ message BundleResultAuctionLoose {
   string auction_id = 1; // ID of the auction.
 }
 
-// Message indicating a bundle was partially processed.
-message BundleResultPartiallyProcessed {
-  string auction_id = 1; // ID of the auction.
-  repeated bytes digest = 2; // Digests of the processed messages.
-}
-
-// Message indicating a bundle partially expired.
-message BundleResultPartiallyExpired {
-  string auction_id = 1; // ID of the auction.
-  repeated bytes digest = 2; // Digests of the expired messages.
-}
-
-// Message indicating a bundle was interrupted.
-message BundleResultInterrupted {
-  bool on_auction = 1; // Whether the bundle was on auction.
-  oneof reason {
-    BundleResultPartiallyProcessed partially_processed = 2; // Partially processed bundle result.
-    BundleResultPartiallyExpired expired = 3; // Partially expired bundle result.
-  }
-}
-
-// Message indicating a bundle auction failed due to an estimate error.
-message BundleResultAuctionFailedEstimate {
-  string auction_id = 1; // ID of the auction.
-  bytes digest = 2; // Digest of the failed message.
-  string message = 3; // Error message.
-}
-
-// Message indicating a bundle auction failed due to an internal error.
-message BundleResultInternalError {
-  string auction_id = 1; // ID of the auction.
-  repeated bytes digest = 2; // Digests of the messages involved.
-  string message = 3; // Error message.
-}
-
-// Message indicating a bundle auction failure.
-message BundleResultAuctionFailed {
-  oneof reason {
-    BundleResultAuctionFailedEstimate estimate_error = 1; // Auction failed due to estimate error.
-    BundleResultInternalError internal_error = 2; // Auction failed due to internal error.
-  }
-}
-
 // Message representing the result of a bundle submission.
 message BundleResult {
   string id = 1; // ID of the bundle.
   oneof result {
     BundleResultAuctionWin win = 2; // Bundle won the auction.
     BundleResultAuctionLoose loose = 3; // Bundle lost the auction.
-    BundleResultInterrupted drop = 4; // Bundle was interrupted.
-    BundleResultAuctionFailed failure = 5; // Bundle auction failed.
   }
 }
 
